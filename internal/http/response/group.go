@@ -1,6 +1,6 @@
 package response
 
-import "github.com/mohammadne/nobahar-1401/internal/http/model"
+import "github.com/mohammadne/nobahar-1401/internal/models"
 
 type CreateGroupResponse struct {
 	Group struct {
@@ -10,9 +10,9 @@ type CreateGroupResponse struct {
 }
 
 type GetGroupsResponse struct {
-	Groups []model.Group `json:"groups"`
+	Groups []models.Group `json:"groups"`
 }
 
 type GetMyGroupsResponse struct {
-	Groups []model.DetailedGroup `json:"groups"`
+	Groups []models.DetailedGroup `json:"groups"`
 }
