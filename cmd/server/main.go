@@ -38,7 +38,10 @@ func main(cmd *cobra.Command, _ []string) {
 	if err != nil {
 		log.Panic(err)
 	}
-	db.Migrate()
+
+	if err := db.Migrate(); err != nil {
+		log.Panic(err)
+	}
 
 	jwt := jwt.New(cfg.JWT)
 	go http.New(cfg.HTTP, db, jwt).Serve()
