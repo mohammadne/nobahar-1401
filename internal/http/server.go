@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/mohammadne/nobahar-1401/internal/db"
 	"github.com/mohammadne/nobahar-1401/internal/http/handler"
 	"github.com/mohammadne/nobahar-1401/internal/jwt"
 )
@@ -14,11 +15,11 @@ type server struct {
 	config *Config
 }
 
-func New(cfg *Config, jwt jwt.JWT) *server {
+func New(cfg *Config, db db.DB, jwt jwt.JWT) *server {
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
 
 	router := app.Group("/api/v1")
-	handler.Auth{JWT: jwt}.Register(router)
+	handler.Auth{JWT: jwt, DB: db}.Register(router)
 	handler.Chat{}.Register(router)
 	handler.Group{}.Register(router)
 

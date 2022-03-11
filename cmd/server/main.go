@@ -1,7 +1,6 @@
 package server
 
 import (
-	"context"
 	"os"
 	oss "os/signal"
 	"syscall"
@@ -39,10 +38,10 @@ func main(cmd *cobra.Command, _ []string) {
 	if err != nil {
 		log.Panic(err)
 	}
-	db.Migrate(context.Background())
+	db.Migrate()
 
 	jwt := jwt.New(cfg.JWT)
-	go http.New(cfg.HTTP, jwt).Serve()
+	go http.New(cfg.HTTP, db, jwt).Serve()
 
 	exitReason := "exiting due to recieving an unix signal, signal: %s\n"
 	log.Printf(exitReason, (<-signalChannel).String())

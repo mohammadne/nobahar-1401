@@ -1,7 +1,7 @@
 db:
   driver: "postgres"
   host: "127.0.0.1"
-  port: 1234
+  port: 5432
   username: "username"
   password: "password"
   database: "nobahar"

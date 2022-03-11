@@ -1,15 +1,17 @@
 package db
 
 import (
-	"context"
 	"fmt"
 
+	"github.com/mohammadne/nobahar-1401/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 type DB interface {
-	Migrate(ctx context.Context) error
+	Migrate() error
+	GetUser(email string) (*models.User, error)
+	CreateUser(user *models.User) error
 }
 
 type db struct {
@@ -29,6 +31,22 @@ func New(cfg *Config) (*db, error) {
 	return &db{gorm}, nil
 }
 
-func (db *db) Migrate(ctx context.Context) error {
-	return db.instance.AutoMigrate()
+func (db *db) Migrate() error {
+	return db.instance.AutoMigrate(models.User{}, models.Role{}, models.Group{}, models.Chat{}, models.Message{})
+}
+
+// ===========================================================================> USER
+
+func (db *db) GetUser(email string) (*models.User, error) {
+	user := models.User{}
+	result := db.instance.First(&user, "email = ?", email)
+	return &user, result.Error
+}
+
+func (db *db) CreateUser(user *models.User) error {
+	result := db.instance.Create(user)
+	if err := result.Error; err != nil {
+		return err
+	}
+	return nil
 }

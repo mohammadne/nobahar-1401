@@ -9,5 +9,6 @@ type RoleType uint8
 
 const (
 	Admin RoleType = iota + 1
-	Normal
+	Member
+	None
 )
