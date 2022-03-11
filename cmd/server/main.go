@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"os"
 	oss "os/signal"
 	"syscall"
@@ -8,6 +9,7 @@ import (
 	"log"
 
 	"github.com/mohammadne/nobahar-1401/internal/config"
+	"github.com/mohammadne/nobahar-1401/internal/db"
 	"github.com/mohammadne/nobahar-1401/internal/http"
 	"github.com/mohammadne/nobahar-1401/internal/jwt"
 	"github.com/spf13/cobra"
@@ -27,11 +29,17 @@ func main(cmd *cobra.Command, _ []string) {
 	cfg, err := config.Load()
 	if err != nil {
 		errString := "failed to load configs"
-		panic(map[string]interface{}{"msg": errString, "err": err})
+		log.Panic(errString, err)
 	}
 
 	signalChannel := make(chan os.Signal, 1)
 	oss.Notify(signalChannel, syscall.SIGINT, syscall.SIGTERM)
+
+	db, err := db.New(cfg.DB)
+	if err != nil {
+		log.Panic(err)
+	}
+	db.Migrate(context.Background())
 
 	jwt := jwt.New(cfg.JWT)
 	go http.New(cfg.HTTP, jwt).Serve()

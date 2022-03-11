@@ -16,13 +16,17 @@ type db struct {
 	instance *gorm.DB
 }
 
-func New(cfg *Config) (*gorm.DB, error) {
+func New(cfg *Config) (*db, error) {
 	dsn := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s TimeZone=%s",
 		cfg.Host, cfg.Port, cfg.Username, cfg.Password, cfg.Database, cfg.SSLMode, cfg.Timezone,
 	)
 
-	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	gorm, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+	return &db{gorm}, nil
 }
 
 func (db *db) Migrate(ctx context.Context) error {

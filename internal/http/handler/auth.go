@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"log"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/mohammadne/nobahar-1401/internal/http/request"
 	"github.com/mohammadne/nobahar-1401/internal/http/response"
@@ -20,7 +18,6 @@ func (a Auth) Register(r fiber.Router) {
 
 func (a Auth) signup(ctx *fiber.Ctx) error {
 	request := request.SignupRequest{}
-
 	if err := ctx.BodyParser(&request); err != nil {
 		return err
 	}
@@ -29,13 +26,6 @@ func (a Auth) signup(ctx *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-
-	id, email, err := a.JWT.ExtractTokenData(token)
-	if err != nil {
-		panic(err)
-		return err
-	}
-	log.Printf("id:%d, email;%s", id, email)
 
 	return ctx.JSON(response.SignupResponse{
 		Token:   token,
