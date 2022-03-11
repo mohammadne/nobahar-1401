@@ -14,5 +14,5 @@ type GetGroupsResponse struct {
 }
 
 type GetMyGroupsResponse struct {
-	Groups []models.DetailedGroup `json:"groups"`
+	Groups []models.Group `json:"groups"`
 }
