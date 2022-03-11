@@ -1,13 +1,13 @@
 package db
 
 type Config struct {
-	Driver   string `mapstructure:"driver"`
-	Host     string `mapstructure:"host"`
-	Port     int    `mapstructure:"port"`
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
-	Database string `mapstructure:"database"`
-	SSLMode  string `mapstructure:"ssl_mode"`
-	Timezone string `mapstructure:"timezone"`
-	PageSize int    `mapstructure:"page_size"`
+	Driver   string `koanf:"driver"`
+	Host     string `koanf:"host"`
+	Port     int    `koanf:"port"`
+	Username string `koanf:"username"`
+	Password string `koanf:"password"`
+	Database string `koanf:"database"`
+	SSLMode  string `koanf:"ssl_mode"`
+	Timezone string `koanf:"timezone"`
+	PageSize int    `koanf:"page_size"`
 }
