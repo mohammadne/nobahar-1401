@@ -9,6 +9,7 @@ import (
 
 	"github.com/mohammadne/nobahar-1401/internal/config"
 	"github.com/mohammadne/nobahar-1401/internal/http"
+	"github.com/mohammadne/nobahar-1401/internal/jwt"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +33,8 @@ func main(cmd *cobra.Command, _ []string) {
 	signalChannel := make(chan os.Signal, 1)
 	oss.Notify(signalChannel, syscall.SIGINT, syscall.SIGTERM)
 
-	go http.New(cfg.HTTP).Serve()
+	jwt := jwt.New(cfg.JWT)
+	go http.New(cfg.HTTP, jwt).Serve()
 
 	exitReason := "exiting due to recieving an unix signal, signal: %s\n"
 	log.Printf(exitReason, (<-signalChannel).String())
