@@ -1,9 +1,9 @@
 package response
 
 import (
-	"github.com/mohammadne/nobahar-1401/internal/http/model"
+	"github.com/mohammadne/nobahar-1401/internal/models"
 )
 
 type GetConnectionRequestsResponse struct {
-	Requests []model.ConnectionRequest `json:"requests"`
+	Requests []models.ConnectionRequest `json:"requests"`
 }

@@ -1,11 +1,11 @@
 package response
 
-import "github.com/mohammadne/nobahar-1401/internal/http/model"
+import "github.com/mohammadne/nobahar-1401/internal/models"
 
 type GetChatsResponse struct {
-	Chats []model.Chat `json:"chats"`
+	Chats []models.Chat `json:"chats"`
 }
 
 type GetChatMessagesResponse struct {
-	Messages []model.Message `json:"messages"`
+	Messages []models.Message `json:"messages"`
 }
