@@ -1,0 +1,9 @@
+db:
+  driver: "postgres"
+  host: "127.0.0.1"
+  port: 5432
+  username: "admin"
+  password: "password"
+  database: "nobahar"
+  ssl_mode: "disable"
+  timezone: "Asia/Tehran"

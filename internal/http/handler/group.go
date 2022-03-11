@@ -5,17 +5,17 @@ import "github.com/gofiber/fiber/v2"
 type Group struct {
 }
 
-func (g Group) Register(app *fiber.App) {
-	app.Post("/api/v1/groups", g.create)
-	app.Get("/api/v1/groups", g.getAll)
-	app.Get("/api/v1/groups/my", g.getMyGroups)
-	app.Post("/api/v1/join_requests", g.join)
-	app.Get("/api/v1/join_requests", g.getJoinRequests)
-	app.Get("/api/v1/join_requests/group", g.getJoinRequestsByGroup)
-	app.Post("/api/v1/join_requests/accept", g.acceptJoinRequest)
-	app.Post("/api/v1/connection_requests", g.connectGroups)
-	app.Get("/api/v1/connection_requests", g.getConnectionRequests)
-	app.Get("/api/v1/connection_requests/accept", g.acceptConnectionRequest)
+func (g Group) Register(r fiber.Router) {
+	r.Post("/groups", g.create)
+	r.Get("/groups", g.getAll)
+	r.Get("/groups/my", g.getMyGroups)
+	r.Post("/join_requests", g.join)
+	r.Get("/join_requests", g.getJoinRequests)
+	r.Get("/join_requests/group", g.getJoinRequestsByGroup)
+	r.Post("/join_requests/accept", g.acceptJoinRequest)
+	r.Post("/connection_requests", g.connectGroups)
+	r.Get("/connection_requests", g.getConnectionRequests)
+	r.Get("/connection_requests/accept", g.acceptConnectionRequest)
 }
 
 // create a new group

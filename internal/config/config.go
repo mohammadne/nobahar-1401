@@ -10,6 +10,7 @@ import (
 	"github.com/knadh/koanf/parsers/toml"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/rawbytes"
+	"github.com/mohammadne/nobahar-1401/internal/db"
 	"github.com/mohammadne/nobahar-1401/internal/http"
 	"github.com/mohammadne/nobahar-1401/internal/jwt"
 )
@@ -17,6 +18,7 @@ import (
 type Config struct {
 	HTTP *http.Config `koanf:"http"`
 	JWT  *jwt.Config  `koanf:"jwt"`
+	DB   *db.Config   `koanf:"db"`
 }
 
 const delimeter = "."

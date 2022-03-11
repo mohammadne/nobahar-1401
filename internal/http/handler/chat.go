@@ -5,10 +5,10 @@ import "github.com/gofiber/fiber/v2"
 type Chat struct {
 }
 
-func (c Chat) Register(app *fiber.App) {
-	app.Post("/api/v1/chats/:user_id", c.sendMessage)
-	app.Get("/api/v1/chats/:user_id", c.getMessages)
-	app.Get("api/v1/chats", c.getChats)
+func (c Chat) Register(r fiber.Router) {
+	r.Post("/chats/:user_id", c.sendMessage)
+	r.Get("/chats/:user_id", c.getMessages)
+	r.Get("/chats", c.getChats)
 }
 
 // sendMessage

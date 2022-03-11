@@ -16,9 +16,10 @@ type server struct {
 func New(cfg *Config) *server {
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
 
-	handler.Auth{}.Register(app)
-	handler.Chat{}.Register(app)
-	handler.Group{}.Register(app)
+	router := app.Group("/api/v1")
+	handler.Auth{}.Register(router)
+	handler.Chat{}.Register(router)
+	handler.Group{}.Register(router)
 
 	return &server{app: app, config: cfg}
 }
