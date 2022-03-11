@@ -5,10 +5,11 @@ import (
 	oss "os/signal"
 	"syscall"
 
+	"log"
+
+	"github.com/mohammadne/nobahar-1401/internal/config"
 	"github.com/mohammadne/nobahar-1401/internal/http"
-	"github.com/pingcap/log"
 	"github.com/spf13/cobra"
-	"honnef.co/go/tools/config"
 )
 
 const (
@@ -31,7 +32,8 @@ func main(cmd *cobra.Command, _ []string) {
 	signalChannel := make(chan os.Signal, 1)
 	oss.Notify(signalChannel, syscall.SIGINT, syscall.SIGTERM)
 
-	go http.New().Serve()
+	go http.New(cfg.HTTP).Serve()
 
-	log.Info("exiting due to recieving an unix signal")
+	exitReason := "exiting due to recieving an unix signal, signal: %s\n"
+	log.Printf(exitReason, (<-signalChannel).String())
 }
