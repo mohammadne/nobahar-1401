@@ -5,11 +5,12 @@ import (
 	"fmt"
 
 	jwtPkg "github.com/golang-jwt/jwt/v4"
+	"github.com/mohammadne/nobahar-1401/internal/models"
 )
 
 type JWT interface {
 	CreateTokenString(userId uint, email string) (string, error)
-	ExtractTokenData(tokenString string) (*Payload, error)
+	ExtractTokenData(tokenString string) (*models.JwtPayload, error)
 }
 
 type jwt struct {
@@ -21,7 +22,7 @@ func New(cfg *Config) JWT {
 }
 
 func (jwt *jwt) CreateTokenString(userId uint, email string) (string, error) {
-	payload := &Payload{UserId: userId, Email: email}
+	payload := &models.JwtPayload{UserId: userId, Email: email}
 	token := jwtPkg.NewWithClaims(jwtPkg.SigningMethodHS256, payload)
 	return token.SignedString([]byte(jwt.cfg.SecretKey))
 }
@@ -32,7 +33,7 @@ const (
 	errorUnmarshalData  = "error unmarshaling the data"
 )
 
-func (jwt *jwt) ExtractTokenData(tokenString string) (*Payload, error) {
+func (jwt *jwt) ExtractTokenData(tokenString string) (*models.JwtPayload, error) {
 	checkSigningMethod := func(token *jwtPkg.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwtPkg.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("wrong signing method: %v", token.Header["alg"])
@@ -40,7 +41,7 @@ func (jwt *jwt) ExtractTokenData(tokenString string) (*Payload, error) {
 		return jwt.cfg.SecretKey, nil
 	}
 
-	token, err := jwtPkg.ParseWithClaims(tokenString, &Payload{}, checkSigningMethod)
+	token, err := jwtPkg.ParseWithClaims(tokenString, &models.JwtPayload{}, checkSigningMethod)
 	if err != nil {
 		errStr := fmt.Sprintf("error: %v, token: %s", err, tokenString)
 		return nil, errors.New(errStr)
@@ -51,7 +52,7 @@ func (jwt *jwt) ExtractTokenData(tokenString string) (*Payload, error) {
 		return nil, errors.New(errStr)
 	}
 
-	payload, ok := token.Claims.(*Payload)
+	payload, ok := token.Claims.(*models.JwtPayload)
 	if !ok {
 		errStr := fmt.Sprintf("%s: %s, token: %v", inValidToken, errorMappingPayload, token)
 		return nil, errors.New(errStr)
